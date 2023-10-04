@@ -1,102 +1,144 @@
 @startuml
-class User {
-    - userId: int
-    - firstName: string
-    - lastName: string
-    - email: string
-    - phoneNumber: string
-    - username: string
-    - password: string
-    - profilePicture: Image
-    - authenticated: bool
-    - registrationDate: Date
+!define RECTANGLE class
+!define INTERFACE interface
 
-    + register(firstName, lastName, email, phoneNumber, username, password, profilePicture): void
-    + login(username, password): bool
-    + logout(): void
-    + forgotPassword(email): void
+INTERFACE IAuthentication {
+  + {abstract} register(): bool
+  + {abstract} login(): bool
+  + {abstract} logout(): bool
 }
 
-class Admin {
-    << (A,#FF7700) >>
-    - adminId: int
-    - adminName: string
-
-    + manageUsers(): void
-    + sendInvitation(user: User): void
-    + deleteUser(user: User): void
+INTERFACE IVideoManagement {
+  + {abstract} uploadVideo(): Video
+  + {abstract} editMetadata(): bool
+  + {abstract} deleteVideo(): bool
 }
 
-class ISROUser {
-    - isroUserId: int
-    - isroUserRole: string
-
-    + uploadVideo(videoInfo): Video
-    + classifyVideo(video: Video): void
-    + searchVideo(keyword: string): List<Video>
-    + viewStats(): void
-    + viewRecommendations(keyword: string): List<Video>
+INTERFACE IUserManagement {
+  + {abstract} manageUsers(): List<User>
+  + {abstract} sendInvitation(): bool
+  + {abstract} deleteUser(): bool
 }
 
-class GeneralUser {
-    - generalUserId: int
-
-    + searchVideo(keyword: string): List<Video>
-    + viewRecommendations(keyword: string): List<Video>
+INTERFACE IDataManagement {
+  + {abstract} synchronizeData(): bool
 }
 
-class Video {
-    - videoId: int
-    - title: string
-    - description: string
-    - genre: string
-    - filePath: string
-
-    + play(): void
+INTERFACE INotificationManagement {
+  + {abstract} sendNotification(): bool
 }
 
-class VideoClassification {
-    - classificationId: int
-    - videoId: int
-    - userId: int
-    - selectedGenre: string
-
-    + classifyVideo(videoId, userId, genre): void
-    + getRecommendedVideos(userId): List<Video>
+RECTANGLE User {
+  #userId: int
+  #firstName: String
+  #lastName: String
+  #email: String
+  #phoneNumber: String
+  -username: String
+  -password: String
+  #profilePicture: Image
+  #authenticated: bool
+  -registrationDate: Date
+  +forgotPassword(): void
+  +changePassword(): bool
+  +viewProfile(): Profile
 }
 
-class Dashboard {
-    - userId: int
-    - uploadedVideos: List<Video>
-    - classifiedVideos: List<Video>
-
-    + viewUploadedVideos(): List<Video>
-    + viewClassifiedVideos(): List<Video>
-    + viewStats(): void
+RECTANGLE Admin << (A,#FF7700) >> {
+  -adminId: int
+  +adminName: String
+  +viewUserStats(): Stats
 }
 
-class Database {
-    + addUser(user: User): void
-    + getUserById(userId: int): User
-    + addAdmin(admin: Admin): void
-    + deleteUser(user: User): void
-    + storeVideo(video: Video): void
-    + getClassifications(userId: int): List<VideoClassification>
-    + addClassification(classification: VideoClassification): void
+RECTANGLE ISROUser {
+  -isroUserId: int
+  #isroUserRole: String
+  +classifyVideo(): Genre
+  +searchVideo(): List<Video>
+  +viewStats(): Stats
+  +shareVideo(): bool
 }
 
-User "1" *-- "1..*" VideoClassification
-User "1" *-- "1..*" Video
-User "1" *-- "1" Dashboard
-VideoClassification "1" -- "1" Video
-Dashboard "1" *-- "1..*" Video
+RECTANGLE GeneralUser {
+  -generalUserId: int
+  +searchVideo(): List<Video>
+  +viewVideoContent(): Video
+}
 
-Admin -- User : Manages
-ISROUser --|> User
-GeneralUser --|> User
+RECTANGLE Video {
+  -videoId: int
+  #title: String
+  #description: String
+  #genre: Genre
+  #filePath: String
+  -metadata: Metadata
+  +play(): void
+}
 
-User --> Database : Uses
-Admin --> Database : Uses
-ISROUser --> Database : Uses
-VideoClassification --> Database : Uses
+RECTANGLE Database {
+  +addUser(): bool
+  +getUserById(): User
+  +addVideo(): bool
+  +getVideoById(): Video
+  +updateUser(): bool
+  +updateVideo(): bool
+}
+
+RECTANGLE Dashboard {
+  -userId: int
+  +viewUploadedVideos(): List<Video>
+  +viewClassifiedVideos(): List<VideoClassification>
+  +viewStats(): Stats
+}
+
+RECTANGLE VideoClassification {
+  -classificationId: int
+  -video: Video
+  -userId: int
+  -selectedGenre: Genre
+  +getRecommendedVideos(): List<Video>
+}
+
+RECTANGLE Genre {
+  -genreId: int
+  +name: String
+  +addGenre(): bool
+  +editGenre(): bool
+  +deleteGenre(): bool
+}
+
+RECTANGLE Metadata {
+  -title: String
+  -description: String
+  -timestamps: String
+  -duration: int
+  -tags: List<String>
+  -keywords: List<String>
+  +generateMetadata(): Metadata
+}
+
+RECTANGLE Notification {
+  -notificationID: int
+  -message: String
+  -users: User[*]
+}
+
+User --|> Admin: Inheritance {leaf}
+User --|> ISROUser: Inheritance {leaf}
+User --|> GeneralUser: Inheritance {leaf}
+User --|> IAuthentication: realizes
+Admin --|> IUserManagement: realizes
+ISROUser --|> IVideoManagement: realizes
+GeneralUser --> Database: Uses
+Video --> Database: Uses
+Dashboard --> Database: Uses
+User "1" --> "0..1" Dashboard: Views
+User "1" --> "0..*" VideoClassification: Creates
+User "1" --> "0..*" Notification: Receives
+ISROUser "1" --> "0..*" Video: Uploads
+Video "1" --> "1" Metadata: Contains
+VideoClassification "0..*" --> "1" Genre: Classifies
+Video "1" --> "0..*" Genre: Belongs to
+Database ..> IDataManagement: includes
+Notification ..> INotificationManagement: includes
 @enduml
