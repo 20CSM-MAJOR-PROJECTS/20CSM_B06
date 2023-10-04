@@ -4,7 +4,7 @@
 
 #### User Interface Design using Figma
 ```bash
-https://www.figma.com/file/VcEBG5lrhGuzg42sdbd3Vo/ISRO-Video-Streaming-App-Figma?type=design&node-id=0%3A1&mode=design&t=ffomcQeWTo8gt3VB-1
+https://www.figma.com/file/m6rfmGmuADSmboWa2a2GcJ/ISRO-video-streaming-Webapp?type=design&node-id=0%3A1&mode=design&t=PmqOTFjTwjaSbWZY-1
 ```
 #### Project-Workflow:
 ```bash
