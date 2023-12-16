@@ -1,0 +1,9 @@
+fastapi
+boto3
+pymongo
+uvicorn[standard]
+pandas
+weaviate-client
+moviepy
+numpy
+-e .
