@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My videos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h2>ISRO Documentaries Hub</h2>
+    </header>
+    <div id="myVideosPage">
+        <h4>My Uploaded Videos</h4>
+
+        
+
+        <!-- Search by Title or Description -->
+        <label for="searchInput">Title / Keyword :</label>
+        <input type="text" id="searchInput" oninput="searchVideos()" placeholder="Enter keyword">
+        
+        <!-- Filter by Genres -->
+        <label for="genreFilter">Filter by Genre:</label>
+        <select id="genreFilter" name="genreFilter" onchange="filterVideos()">
+            <option value="all">All Genres</option>
+            <option value="animation">Animation</option>
+            <option value="graphics">Graphics</option>
+            <option value="indoorControlRoom">Indoor Control Room</option>
+            <option value="interview">Interview</option>
+            <option value="launch">Launch</option>
+            <option value="logo">Logo</option>
+        </select>
+
+        <!-- Display Videos -->
+        <ul id="videoList">
+            <!-- Hardcoded Video Items (Replace with dynamic data from the backend) -->
+            <li data-genre="animation" data-title="Animation Video" data-description="This is an animated video.">
+                <h3>Animation Video</h3>
+                <p>This is an animated video.</p>
+            </li>
+            <li data-genre="graphics" data-title="Graphics Video" data-description="A video showcasing graphics design.">
+                <h3>Graphics Video</h3>
+                <p>A video showcasing graphics design.</p>
+            </li>
+            <!-- Add more video items as needed -->
+        </ul>
+    </div>
+    <footer>
+        <h4><p>&copy <a href="about.html">All Rights Reserved.</a></p></h4>
+    </footer>
+    <script>
+        function filterVideos() {
+            var genreFilter = document.getElementById('genreFilter').value;
+            var videoList = document.getElementById('videoList').getElementsByTagName('li');
+
+            for (var i = 0; i < videoList.length; i++) {
+                var videoGenre = videoList[i].getAttribute('data-genre');
+
+                if (genreFilter === 'all' || genreFilter === videoGenre) {
+                    videoList[i].style.display = 'block';
+                } else {
+                    videoList[i].style.display = 'none';
+                }
+            }
+        }
+
+        function searchVideos() {
+            var searchInput = document.getElementById('searchInput').value.toLowerCase();
+            var videoList = document.getElementById('videoList').getElementsByTagName('li');
+
+            for (var i = 0; i < videoList.length; i++) {
+                var videoTitle = videoList[i].getAttribute('data-title').toLowerCase();
+                var videoDescription = videoList[i].getAttribute('data-description').toLowerCase();
+
+                if (videoTitle.includes(searchInput) || videoDescription.includes(searchInput)) {
+                    videoList[i].style.display = 'block';
+                } else {
+                    videoList[i].style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

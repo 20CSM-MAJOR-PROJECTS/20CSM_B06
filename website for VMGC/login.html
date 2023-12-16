@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h2>ISRO Documentaries Hub</h2>
+    </header>
+
+    <form id="loginForm" method="post" onsubmit="handleLogin(event)">
+        <h4>Enter your credentials</h4>
+        <label for="username">Username:<span class="required">*</span></label>
+        <input type="text" id="username" name="username" placeholder="John123" required>
+
+        <label for="password">Password:<span class="required">*</span></label>
+        <input type="password" id="password" name="password" placeholder="John@123" required>
+
+        <a href="forgot-password.html" class="forgot-password">Forgot Password?</a>
+
+        <button type="submit">Sign-in</button>
+        <p id="errorMessage" class="error-message"></p>
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
+    </form>
+    
+
+    <footer>
+        <h4><p>&copy <a href="about.html">All Rights Reserved.</a></p></h4>
+    </footer>
+
+    <script>
+        function handleLogin(event) {
+            // Implement client-side login logic
+            // Validate username and password
+            // If successful login, proceed to the dashboard or user's home page
+            // If login fails, show an error message
+            event.preventDefault();
+            // Add your login logic here
+            // Example: window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>

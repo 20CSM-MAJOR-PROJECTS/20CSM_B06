@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Upload</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h2>ISRO Documentaries Hub</h2>
+    </header>
+    <form id="videoUploadForm" method="post" enctype="multipart/form-data" onsubmit="handleUpload(event)">
+        <h4>Upload ISRO Documentaries</h4>
+
+        <label for="videoFile">Upload Video:</label>
+        <input type="file" id="videoFile" name="videoFile" accept="video/*" required>
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" placeholder="Enter video title" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" placeholder="Enter video description" rows="4" required></textarea>
+
+        <button type="submit">Upload Video</button>
+        <p id="errorMessage" class="error-message"></p>
+    </form>
+    <footer>
+        <h4><p>&copy <a href="about.html">All Rights Reserved.</a></p></h4>
+    </footer>
+    <script>
+        function handleUpload(event) {
+            event.preventDefault();
+
+            // Implement video upload logic (e.g., using AJAX/fetch)
+            // Handle errors and display appropriate messages
+
+            // Example: Redirect to a confirmation page after successful upload
+            window.location.href = 'upload_confirmation.html';
+        }
+    </script>
+</body>
+</html>
