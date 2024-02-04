@@ -2,6 +2,6 @@
 
 #### Project Title
 
-Automated Metadata Generation and Video Classification for Efficient Retrieval of ISRO Documentaries
+Automated Video Classification for Efficient Retrieval of ISRO Documentaries
 
 
